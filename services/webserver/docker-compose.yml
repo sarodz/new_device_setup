@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  webserver:
+    container_name: nginx
+    hostname: nginx:1.21.6-alpine
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - "./nginx:/etc/nginx"
+      - "./ssl/private:/etc/ssl/private"
+    certbot:
+      image: certbot/certbot
