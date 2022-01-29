@@ -1,15 +1,21 @@
 version: '3'
 
 services:
-  webserver:
-    container_name: nginx
+  nginx:
+    container_name: nginx_certbot
     hostname: nginx:1.21.6-alpine
-    image: nginx:latest
+    image: docker.io/jonasal/nginx-certbot:latest
+    restart: unless-stopped
+    env_file:
+      - ./nginx-certbot.env
     ports:
       - 80:80
       - 443:443
     volumes:
-      - "./nginx:/etc/nginx"
-      - "./ssl/private:/etc/ssl/private"
+      - /etc/letsencrypt:/etc/letsencrypt
+      - ./user_conf.d:/etc/nginx/user_conf.d
+      - ./.htpasswd:/etc/nginx/.htpasswd
+      - /media:/www/media
+      - ./www:/www    
     certbot:
       image: certbot/certbot
