@@ -21,7 +21,7 @@ services:
     networks:
       backend:
         ipv4_address: '172.31.0.100'
-      frontproxy_proxy-tier: {}
+      nginx-proxy_default: {}
 
   dhcphelper:
     build: ./dhcp-helper
@@ -36,5 +36,5 @@ networks:
     ipam:
       config:
         - subnet: 172.31.0.0/16
-  frontproxy_proxy-tier:
+  nginx-proxy_default:
     external: true
