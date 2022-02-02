@@ -12,7 +12,7 @@ screenoff:
 
 .PHONY: firmware
 firmware:
-	sudo sed -i 's|deb http://deb.debian.org/debian/ bullseye main|deb http://deb.debian.org/debian/ bullseye main|'
+	sudo sed -i 's|deb http://deb.debian.org/debian/ bullseye main|deb http://deb.debian.org/debian/ bullseye main|' /etc/apt/sources.list
 	sudo apt-get update && sudo apt-get install firmware-linux-nonfree && sudo apt-get install firmware-realtek
 
 
