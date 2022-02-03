@@ -17,7 +17,7 @@ firmware:
 
 .PHONY: lidoff
 lidoff:
-	sudo sed -i 's|#HandleLidSwitch=suspend|HandleLidSwitch=ignore|' /etc/systemd/logind.conf	
+
 
 
 .PHONY: install
