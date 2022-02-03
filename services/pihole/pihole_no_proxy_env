@@ -1,0 +1,6 @@
+ServerIP=127.0.0.1
+DNS1=127.0.0.1
+DNS2=1.1.1.1
+VIRTUAL_HOST=pi.hole
+PROXY_LOCATION=pi.hole
+TZ=America/Toronto
