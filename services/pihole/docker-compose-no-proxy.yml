@@ -12,8 +12,8 @@ services:
       - "443:443/udp"
       #- "67:67/udp"
       - "80:80/tcp"
-    environment:
-      TZ: 'America/Chicago'
+    env_file:
+      - pihole_no_proxy.env
       # WEBPASSWORD: 'set a secure password here or it will be random'
     # Volumes store your data between container upgrades
     volumes:
