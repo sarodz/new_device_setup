@@ -1,0 +1,10 @@
+version: "3"
+services:
+  duckdns:
+    image: lscr.io/linuxserver/duckdns
+    container_name: duckdns
+    env_file:
+      - /conf/duckdns/duckdns.env
+    volumes:
+      - /clunkervol/duckdns/custom-crontab:/etc/crontabs
+    restart: unless-stopped

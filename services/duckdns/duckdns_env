@@ -1,0 +1,6 @@
+PUID=1000
+PGID=1000
+TZ=Europe/London
+SUBDOMAINS=subdomain1,subdomain2
+TOKEN=<token>
+LOG_FILE=false
