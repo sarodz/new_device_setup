@@ -1,0 +1,10 @@
+version: "3"
+services:
+  ddclient:
+    image: lscr.io/linuxserver/ddclient
+    container_name: ddclient
+    env_file:
+      - /conf/ddclient/ddclient.env
+    volumes:
+      - /clunkervol/ddclient:/config
+    restart: unless-stopped

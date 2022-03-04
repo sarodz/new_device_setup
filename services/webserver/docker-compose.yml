@@ -17,5 +17,5 @@ services:
       - ./.htpasswd:/etc/nginx/.htpasswd
       - /media:/www/media
       - ./www:/www    
-    certbot:
+  certbot:
       image: certbot/certbot
