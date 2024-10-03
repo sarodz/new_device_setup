@@ -1,0 +1,57 @@
+# DON'T FORGET TO CREATE THE NETWORK MENTIONED HERE
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    restart: always
+    command:
+      # Enable docker provider
+      - "--providers.docker=true"
+      # Enable web UI
+      - "--api.insecure=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.dashboard.address=:8080"
+      # Redirect HTTP to HTTPS (optional)
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      # HTTPS entry point
+      - "--entrypoints.websecure.address=:443"
+      # Set default certificate (self-signed for simplicity)
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=your-email@example.com" # change this!!
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+
+    ports:
+      - "80:80"      # HTTP
+      - "443:443"    # HTTPS
+      - "8080:8080"  # Dashboard
+
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"  # To connect Traefik with Docker
+      - "letsencrypt:/letsencrypt"  # Persistent storage for SSL certs
+    
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`<your-traefik-ip>`)" # change this if running somewhere else
+      - "traefik.http.routers.traefik.entrypoints=dashboard"
+      - "traefik.http.routers.traefik.service=api@internal"
+      # Apply IP whitelist middleware for a range of local IPs
+      - "traefik.http.routers.traefik.middlewares=whitelist"
+      - "traefik.http.middlewares.whitelist.ipwhitelist.sourcerange=192.168.1.0/24"  # Allow access to 192.168.1.0 - 192.168.1.255
+      # Optionally redirect to HTTPS for dashboard
+      # - "traefik.http.routers.traefik-secure.rule=Host(`<your-traefik-ip>`)" # change this if running somewhere else 
+      # - "traefik.http.routers.traefik-secure.entrypoints=websecure"
+      # - "traefik.http.routers.traefik-secure.tls=true"
+      # - "traefik.http.routers.traefik-secure.service=api@internal"
+      # - "traefik.http.routers.traefik-secure.middlewares=whitelist"
+
+    networks:
+      - traefik-network
+
+volumes:
+  letsencrypt:
+    driver: local
+
+networks:
+  traefik-network:
+    external: true
